@@ -1,0 +1,23 @@
+# EditorConfig settings for PowerShell scripts
+
+root = true
+
+[*.ps1]
+# Indentation style: use spaces instead of tabs
+indent_style = space
+
+# Indentation size: 4 spaces is the PowerShell standard
+indent_size = 4
+
+# End of line: use CRLF (Windows line endings) for PowerShell
+# Note: Windows PowerShell 5.1 requires CRLF for proper parsing
+end_of_line = crlf
+
+# Charset: UTF-8 is the standard and recommended encoding
+charset = utf-8
+
+# Newline: ensure there is a blank line at the end of the script
+insert_final_newline = true
+
+# Trim trailing whitespace on every save
+trim_trailing_whitespace = true
