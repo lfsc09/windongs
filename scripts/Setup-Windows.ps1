@@ -74,25 +74,11 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Mouse speed (Needs reboot/logout)
 Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSensitivity" -Value 5
 
-# Mouse Scheme
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "(Default)" -Value "Windows Black (extra large)"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Scheme Source" -Value 2
+# Mouse pointer style
+Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "(Default)" -Value "Windows Black"
 
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Arrow" -Value "%SystemRoot%\cursors\arrow_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Help" -Value "%SystemRoot%\cursors\help_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "AppStarting" -Value "%SystemRoot%\cursors\wait_xl.ani"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Wait" -Value "%SystemRoot%\cursors\busy_xl.ani"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Crosshair" -Value "%SystemRoot%\cursors\cross_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "IBeam" -Value "%SystemRoot%\cursors\beam_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "NWPen" -Value "%SystemRoot%\cursors\pen_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "No" -Value "%SystemRoot%\cursors\no_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "SizeNS" -Value "%SystemRoot%\cursors\size1_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "SizeWE" -Value "%SystemRoot%\cursors\size2_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "SizeNWSE" -Value "%SystemRoot%\cursors\size3_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "SizeNESW" -Value "%SystemRoot%\cursors\size4_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "SizeAll" -Value "%SystemRoot%\cursors\move_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "UpArrow" -Value "%SystemRoot%\cursors\up_xl.cur"
-Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "Hand" -Value "%SystemRoot%\cursors\hand_xl.cur"
+# Mouse pointer size - Slide position (3)
+Set-ItemProperty -Path "HKCU:\Control Panel\Cursors" -Name "CursorBaseSize" -Value 48
 
 # Disable "Use print screen to open screen capture"
 Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "PrintScreenKeyForSnippingEnabled" -Value 0
@@ -139,4 +125,9 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Disable game DVR and Background recording
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Value 0
 Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Value 0
+
+
+# ==========================================
+# WINDOWS EXPLORER SETTINGS
+# ==========================================
 
