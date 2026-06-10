@@ -2,10 +2,10 @@
 
 An Idempotent Windows installation script for Windows 11.
 
-As `admin` open PowerShell and run the following command. *(It will auto-elevete to `admin` if you are not running as `admin`)*
+As `admin` open PowerShell and run the following command.
 
 ```powershell
-Set-ExecutionPolicy Bypass -Scope Process
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 ```
 
 Then run the following command to install `windongs`.

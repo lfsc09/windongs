@@ -18,8 +18,9 @@ if ($confirm -ne 0) {
     Exit
 }
 
+# TODO: Get rid of this ID since it is not used
 $apps = @(
-    [PSCustomObject]@{ Name = "NVIDIA App";        Id = "NVIDIA.NVIDIAApp" }
+    [PSCustomObject]@{ Name = "NVIDIA App";        Id = "" }
     [PSCustomObject]@{ Name = "Google Chrome";     Id = "Google.Chrome" }
     [PSCustomObject]@{ Name = "Visual Studio Code";Id = "Microsoft.VisualStudioCode" }
     [PSCustomObject]@{ Name = "Paint.NET";         Id = "dotPDN.PaintDotNet" }
@@ -30,6 +31,7 @@ $apps = @(
     [PSCustomObject]@{ Name = "Docker Desktop";    Id = "Docker.DockerDesktop" }
     [PSCustomObject]@{ Name = "Notepad++";         Id = "Notepad++.Notepad++" }
     [PSCustomObject]@{ Name = "7zip";              Id = "7zip.7zip" }
+    [PSCustomObject]@{ Name = "Lightshot";         Id = "Skillbrains.Lightshot" }
 )
 
 $selected = $apps | Out-GridView -Title "Select apps to install" -PassThru
@@ -44,11 +46,15 @@ if (-not $selected) {
 # APPS INSTALLATION
 # ==========================================
 
+# TODO: Must address potential errors caused by "Installer has does not match", when winget hash id does not match the
+#       updated program hash id. (Because of recent updates on the program)
+
 Write-Host "=== Starting Apps Installation ===" -ForegroundColor Magenta
 
 # NVIDIA App
 if (Was-Selected "NVIDIA App") {
-    Install-WingetApp "NVIDIA App" "NVIDIA.NVIDIAApp"
+    # Uses https://github.com/emilwojcik93/Install-NvidiaApp
+    irm https://github.com/emilwojcik93/Install-NvidiaApp/releases/latest/download/Install-NvidiaApp.ps1 | iex
 }
 
 # Google Chrome
@@ -108,6 +114,12 @@ if (Was-Selected "Lightshot") {
 
 # TODO: Whatsapp (Requires special handling for silent install)
 
+# TODO: Google Agenda (Not sure if exists)
+
+# TODO: Gemini (Not sure if exists)
+
+# TODO: Claude (Not sure if exists)
+
 
 # ==========================================
 # ADDITIONAL TOOLS & UTILITIES
@@ -115,6 +127,8 @@ if (Was-Selected "Lightshot") {
 
 # TODO: Chocolatey (Requires special handling for installation)
 
-# TODO:
+# TODO: Laravel Herd
+
+# TODO: Bruno
 
 Write-Host "=== Installation of Apps & Tools Complete! ===" -ForegroundColor Magenta
