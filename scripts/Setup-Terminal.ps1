@@ -37,8 +37,8 @@ Install-WingetApp "Git" "Git.Git"
 # GitHub CLI
 Install-WingetApp "GitHub CLI" "GitHub.cli"
 
-# Oh My Posh
-Install-WingetApp "Oh My Posh" "JanDeDobbeleer.OhMyPosh"
+# Starship
+Install-WingetApp "Starship" "Starship.Starship"
 
 
 # ==========================================
@@ -49,7 +49,7 @@ Install-WingetApp "Oh My Posh" "JanDeDobbeleer.OhMyPosh"
 # JetBrains Mono Fonts (Uses Winget font package, which handles Windows font registration)
 Install-WingetApp "JetBrains Mono Font" "JetBrains.JetBrainsMono"
 
-# TODO: CHECK IF CORRECT
+# ERROR: REDO BECAUSE NO MORE OH MY POSH
 # FiraCode Nerd Font
 oh-my-posh font install FiraCode
 
@@ -57,6 +57,9 @@ oh-my-posh font install FiraCode
 # ==========================================
 # DOWNLOAD CONFIGS
 # ==========================================
+
+# MUST RECHECK THESE
+# mkdir -p ~/.config && touch ~/.config/starship.toml
 
 # Download the configs from the repository and place them in the appropriate locations
 $rawBase = "https://raw.githubusercontent.com/lfsc09/windongs/main/configs"

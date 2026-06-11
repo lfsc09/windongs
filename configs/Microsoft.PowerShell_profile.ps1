@@ -3,7 +3,7 @@
 Import-Module Terminal-Icons
 
 # Startup
-oh-my-posh init pwsh --config "<YourDrive>:\Users\<YourUsername>\Documents\PowerShell\posh-theme.json" | Invoke-Expression
+Invoke-Expression (&starship init powershell)
 
 # History
 

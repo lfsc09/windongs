@@ -21,17 +21,19 @@ if ($confirm -ne 0) {
 # TODO: Get rid of this ID since it is not used
 $apps = @(
     [PSCustomObject]@{ Name = "NVIDIA App";        Id = "" }
-    [PSCustomObject]@{ Name = "Google Chrome";     Id = "Google.Chrome" }
-    [PSCustomObject]@{ Name = "Visual Studio Code";Id = "Microsoft.VisualStudioCode" }
-    [PSCustomObject]@{ Name = "Paint.NET";         Id = "dotPDN.PaintDotNet" }
-    [PSCustomObject]@{ Name = "JetBrains Toolbox"; Id = "JetBrains.Toolbox" }
-    [PSCustomObject]@{ Name = "Logitech Options+"; Id = "Logitech.OptionsPlus" }
-    [PSCustomObject]@{ Name = "Zoom";              Id = "Zoom.Zoom" }
-    [PSCustomObject]@{ Name = "OBS Studio";        Id = "Obsproject.OBSStudio" }
-    [PSCustomObject]@{ Name = "Docker Desktop";    Id = "Docker.DockerDesktop" }
-    [PSCustomObject]@{ Name = "Notepad++";         Id = "Notepad++.Notepad++" }
-    [PSCustomObject]@{ Name = "7zip";              Id = "7zip.7zip" }
-    [PSCustomObject]@{ Name = "Lightshot";         Id = "Skillbrains.Lightshot" }
+    [PSCustomObject]@{ Name = "Google Chrome";     Id = "" }
+    [PSCustomObject]@{ Name = "Visual Studio Code";Id = "" }
+    [PSCustomObject]@{ Name = "Paint.NET";         Id = "" }
+    [PSCustomObject]@{ Name = "JetBrains Toolbox"; Id = "" }
+    [PSCustomObject]@{ Name = "Logitech Options+"; Id = "" }
+    [PSCustomObject]@{ Name = "OBS Studio";        Id = "" }
+    [PSCustomObject]@{ Name = "Docker Desktop";    Id = "" }
+    [PSCustomObject]@{ Name = "7zip";              Id = "" }
+    [PSCustomObject]@{ Name = "Lightshot";         Id = "" }
+    [PSCustomObject]@{ Name = "WinDirStat";        Id = "" }
+    [PSCustomObject]@{ Name = "Claude Suite";      Id = "" }
+    [PSCustomObject]@{ Name = "Chocolatey";        Id = "" }
+    [PSCustomObject]@{ Name = "Bruno";             Id = "" }
 )
 
 $selected = $apps | Out-GridView -Title "Select apps to install" -PassThru
@@ -82,24 +84,14 @@ if (Was-Selected "Logitech Options+") {
     Install-WingetApp "Logitech Options+" "Logitech.OptionsPlus"
 }
 
-# Zoom
-if (Was-Selected "Zoom") {
-    Install-WingetApp "Zoom" "Zoom.Zoom"
-}
-
 # OBS Studio
 if (Was-Selected "OBS Studio") {
-    Install-WingetApp "OBS Studio" "Obsproject.OBSStudio"
+    Install-WingetApp "OBS Studio" "OBSProject.OBSStudio"
 }
 
 # Docker Desktop
 if (Was-Selected "Docker Desktop") {
     Install-WingetApp "Docker Desktop" "Docker.DockerDesktop"
-}
-
-# Notepad++
-if (Was-Selected "Notepad++") {
-    Install-WingetApp "Notepad++" "Notepad++.Notepad++"
 }
 
 # 7zip
@@ -112,23 +104,25 @@ if (Was-Selected "Lightshot") {
     Install-WingetApp "Lightshot" "Skillbrains.Lightshot"
 }
 
-# TODO: Whatsapp (Requires special handling for silent install)
+# WinDirStat
+if (Was-Selected "WinDirStat") {
+    Install-WingetApp "WinDirStat" "WinDirStat.WinDirStat"
+}
 
-# TODO: Google Agenda (Not sure if exists)
+# Claude Suite
+if (Was-Selected "Claude Suite") {
+    Install-WingetApp "Claude" "Anthropic.Claude"
+    Install-WingetApp "Claude Code" "Anthropic.ClaudeCode"
+}
 
-# TODO: Gemini (Not sure if exists)
+# Chocolatey
+if (Was-Selected "Chocolatey") {
+    Install-WingetApp "Chocolatey" "Chocolatey.Chocolatey"
+}
 
-# TODO: Claude (Not sure if exists)
-
-
-# ==========================================
-# ADDITIONAL TOOLS & UTILITIES
-# ==========================================
-
-# TODO: Chocolatey (Requires special handling for installation)
-
-# TODO: Laravel Herd
-
-# TODO: Bruno
+# Bruno
+if (Was-Selected "Bruno") {
+    Install-WingetApp "Bruno" "Bruno.Bruno"
+}
 
 Write-Host "=== Installation of Apps & Tools Complete! ===" -ForegroundColor Magenta

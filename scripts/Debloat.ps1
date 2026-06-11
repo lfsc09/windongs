@@ -12,8 +12,6 @@
 
 # TODO: Remove News 
 
-# TODO: Remove Notepad 
-
 # TODO: Remove Paint 
 
 # TODO: Remove Power Automate 
