@@ -5,6 +5,13 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     Exit
 }
 
+# Ensure the script is running in PowerShell 7+
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    Write-Warning "This script requires PowerShell 7 or higher. You are currently running Windows PowerShell $(([string]$PSVersionTable.PSVersion))."
+    Start-Sleep -Seconds 3
+    Exit
+}
+
 if (-not (Get-Module -ListAvailable -Name Microsoft.PowerShell.ConsoleGuiTools)) {
     Install-Module -Name Microsoft.PowerShell.ConsoleGuiTools -Scope CurrentUser -Force -AllowClobber
 }
