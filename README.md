@@ -8,8 +8,26 @@ As `admin` open PowerShell and run the following command.
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 ```
 
-Then run the following command to install `windongs`.
+Install Apps.
 
 ```powershell
-iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Install-Apps-Tools.ps1 | iex
+```
+
+Setup Terminal.
+
+- Windows Terminal w/ settings
+- Powershell v7 w/ profile
+- Git
+- GitHub CLI
+- Starship w/ config file
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Setup-Terminal.ps1 | iex
+```
+
+Setup Git.
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Setup-Git.ps1 | iex
 ```

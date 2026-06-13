@@ -5,8 +5,6 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     Exit
 }
 
-. "$PSScriptRoot\Install-Lib.ps1"
-
 $confirm = $Host.UI.PromptForChoice(
     "Apps & Tools Installation",
     "This will install apps and tools on your system. Proceed?",
@@ -18,111 +16,71 @@ if ($confirm -ne 0) {
     Exit
 }
 
-# TODO: Get rid of this ID since it is not used
 $apps = @(
-    [PSCustomObject]@{ Name = "NVIDIA App";        Id = "" }
-    [PSCustomObject]@{ Name = "Google Chrome";     Id = "" }
-    [PSCustomObject]@{ Name = "Visual Studio Code";Id = "" }
-    [PSCustomObject]@{ Name = "Paint.NET";         Id = "" }
-    [PSCustomObject]@{ Name = "JetBrains Toolbox"; Id = "" }
-    [PSCustomObject]@{ Name = "Logitech Options+"; Id = "" }
-    [PSCustomObject]@{ Name = "OBS Studio";        Id = "" }
-    [PSCustomObject]@{ Name = "Docker Desktop";    Id = "" }
-    [PSCustomObject]@{ Name = "7zip";              Id = "" }
-    [PSCustomObject]@{ Name = "Lightshot";         Id = "" }
-    [PSCustomObject]@{ Name = "WinDirStat";        Id = "" }
-    [PSCustomObject]@{ Name = "Claude Suite";      Id = "" }
-    [PSCustomObject]@{ Name = "Chocolatey";        Id = "" }
-    [PSCustomObject]@{ Name = "Bruno";             Id = "" }
+    [PSCustomObject]@{ Name = "7zip" }
+    [PSCustomObject]@{ Name = "Bruno" }
+    [PSCustomObject]@{ Name = "Chocolatey" }
+    [PSCustomObject]@{ Name = "Claude" }
+    [PSCustomObject]@{ Name = "Claude Code" }
+    [PSCustomObject]@{ Name = "Docker Desktop" }
+    [PSCustomObject]@{ Name = "Google Chrome" }
+    [PSCustomObject]@{ Name = "JetBrains Toolbox" }
+    [PSCustomObject]@{ Name = "Lightshot" }
+    [PSCustomObject]@{ Name = "Logitech Options+" }
+    [PSCustomObject]@{ Name = "NVIDIA App" }
+    [PSCustomObject]@{ Name = "OBS Studio" }
+    [PSCustomObject]@{ Name = "Paint.NET" }
+    [PSCustomObject]@{ Name = "VS Code" }
+    [PSCustomObject]@{ Name = "WinDirStat" }
 )
 
-$selected = $apps | Out-GridView -Title "Select apps to install" -PassThru
+# Show the GUI selection menu
+$selected = $apps | Out-GridView -Title "Select apps to install (Hold Ctrl to select multiple)" -PassThru
 
 if (-not $selected) {
     Write-Host "No apps selected. Installation cancelled." -ForegroundColor Red
     Exit
 }
 
+function Install-WingetApp {
+    param ([string]$PackageId)
+    winget install --id $PackageId
+}
 
 # ==========================================
 # APPS INSTALLATION
 # ==========================================
 
-# TODO: Must address potential errors caused by "Installer has does not match", when winget hash id does not match the
-#       updated program hash id. (Because of recent updates on the program)
+foreach ($app in $selected) {
+    switch ($app.Name) {
+        # --------------------------------------------------
+        # NON-WINGET APPS (Custom Installers)
+        # --------------------------------------------------
+        "NVIDIA App" {
+            # Uses https://github.com/emilwojcik93/Install-NvidiaApp
+            irm https://github.com/emilwojcik93/Install-NvidiaApp/releases/latest/download/Install-NvidiaApp.ps1 | iex
+        }
 
-Write-Host "=== Starting Apps Installation ===" -ForegroundColor Magenta
-
-# NVIDIA App
-if (Was-Selected "NVIDIA App") {
-    # Uses https://github.com/emilwojcik93/Install-NvidiaApp
-    irm https://github.com/emilwojcik93/Install-NvidiaApp/releases/latest/download/Install-NvidiaApp.ps1 | iex
+        # --------------------------------------------------
+        # WINGET APPS
+        # --------------------------------------------------
+        "7zip"                { Install-WingetApp "7zip.7zip" }
+        "Bruno"               { Install-WingetApp "Bruno.Bruno" }
+        "Chocolatey"          { Install-WingetApp "Chocolatey.Chocolatey" }
+        "Claude"              { Install-WingetApp "Anthropic.Claude" }
+        "Claude Code"         { Install-WingetApp "Anthropic.ClaudeCode" }
+        "Docker Desktop"      { Install-WingetApp "Docker.DockerDesktop" }
+        "Google Chrome"       { Install-WingetApp "Google.Chrome" }
+        "JetBrains Toolbox"   { Install-WingetApp "JetBrains.Toolbox" }
+        "Lightshot"           { Install-WingetApp "Skillbrains.Lightshot" }
+        "Logitech Options+"   { Install-WingetApp "Logitech.OptionsPlus" }
+        "OBS Studio"          { Install-WingetApp "OBSProject.OBSStudio" }
+        "Paint.NET"           { Install-WingetApp "dotPDN.PaintDotNet" }
+        "VS Code"             { Install-WingetApp "Microsoft.VisualStudioCode" }
+        "WinDirStat"          { Install-WingetApp "WinDirStat.WinDirStat" }
+        
+        Default {
+            Write-Warning "No installation rule defined for $($app.Name)"
+        }
+    }
 }
-
-# Google Chrome
-if (Was-Selected "Google Chrome") {
-    Install-WingetApp "Google Chrome" "Google.Chrome"
-}
-
-# VSCode
-if (Was-Selected "Visual Studio Code") {
-    Install-WingetApp "Visual Studio Code" "Microsoft.VisualStudioCode"
-}
-
-# Paint.net
-if (Was-Selected "Paint.NET") {
-    Install-WingetApp "Paint.NET" "dotPDN.PaintDotNet"
-}
-
-# JetBrains Toolbox
-if (Was-Selected "JetBrains Toolbox") {
-    Install-WingetApp "JetBrains Toolbox" "JetBrains.Toolbox"
-}
-
-# Logitech Options+
-if (Was-Selected "Logitech Options+") {
-    Install-WingetApp "Logitech Options+" "Logitech.OptionsPlus"
-}
-
-# OBS Studio
-if (Was-Selected "OBS Studio") {
-    Install-WingetApp "OBS Studio" "OBSProject.OBSStudio"
-}
-
-# Docker Desktop
-if (Was-Selected "Docker Desktop") {
-    Install-WingetApp "Docker Desktop" "Docker.DockerDesktop"
-}
-
-# 7zip
-if (Was-Selected "7zip") {
-    Install-WingetApp "7zip" "7zip.7zip"
-}
-
-# Lightshot
-if (Was-Selected "Lightshot") {
-    Install-WingetApp "Lightshot" "Skillbrains.Lightshot"
-}
-
-# WinDirStat
-if (Was-Selected "WinDirStat") {
-    Install-WingetApp "WinDirStat" "WinDirStat.WinDirStat"
-}
-
-# Claude Suite
-if (Was-Selected "Claude Suite") {
-    Install-WingetApp "Claude" "Anthropic.Claude"
-    Install-WingetApp "Claude Code" "Anthropic.ClaudeCode"
-}
-
-# Chocolatey
-if (Was-Selected "Chocolatey") {
-    Install-WingetApp "Chocolatey" "Chocolatey.Chocolatey"
-}
-
-# Bruno
-if (Was-Selected "Bruno") {
-    Install-WingetApp "Bruno" "Bruno.Bruno"
-}
-
-Write-Host "=== Installation of Apps & Tools Complete! ===" -ForegroundColor Magenta
