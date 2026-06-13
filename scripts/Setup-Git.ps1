@@ -74,6 +74,28 @@ if ($confirm -eq 0) {
     } else {
         Write-Host "SSH key file already exists at $sshKeyFile." -ForegroundColor Green
     }
+
+    $configFile = Join-Path $sshDir "config"
+
+    # Check if the config file already maps github.com to prevent duplicates
+    if ((Test-Path $configFile) -and (Get-Content $configFile | Select-String "Host github.com" -SimpleMatch)) {
+        Write-Host "SSH config mapping for github.com already exists." -ForegroundColor Green
+    } else {
+        Write-Host "Adding custom key mapping to SSH configuration file..." -ForegroundColor Yellow
+        
+        # Use a Here-String block for clean formatting
+        $configText = @"
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile "$sshKeyFile"
+    IdentitiesOnly yes
+"@
+        # Append the map safely using UTF-8 to prevent character issues
+        $configText | Out-File $configFile -Append -Encoding utf8
+        Write-Host "SSH config updated! Windows SSH can now read your custom key." -ForegroundColor Green
+    }
 }
 
 $confirm = $Host.UI.PromptForChoice(

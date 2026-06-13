@@ -32,8 +32,9 @@ Setup Git.
 - Create `Github` folder in user's home.
 - Ask for `Name` and `Email` to config git --global.
 - Ask to create SSH ed25519 key.
+  - Update ssh config file to add custom Github ssh key.
 - Ask to create GPG key *(for signed commits)*
-  - Use created key as signKey for git.
+  - Use created key as `signingkey` for git.
 
 ```powershell
 iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Setup-Git.ps1 | iex
