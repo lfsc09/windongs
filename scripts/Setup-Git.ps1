@@ -94,8 +94,6 @@ if ($confirm -eq 0) {
     Name-Real: YOUR_NAME_REPLACE
     Name-Email: YOUR_EMAIL_REPLACE
     Expire-Date: 0
-    %no-ask-passphrase
-    %no-protection
     %commit
 '@ -replace 'YOUR_NAME_REPLACE', $gitName -replace 'YOUR_EMAIL_REPLACE', $gitEmail | Out-File $gpgBatchFile -Encoding ascii
 
