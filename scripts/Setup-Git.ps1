@@ -83,13 +83,11 @@ $confirm = $Host.UI.PromptForChoice(
     1  # Default: No
 )
 if ($confirm -eq 0) {
-    # Install GnuPG Core via Winget if missing
+    # Check if GnuPG Core installed
     if (-not (winget list --id GnuPG.GnuPG --exact 2>$null)) {
-        Write-Host "Installing GnuPG..." -ForegroundColor Yellow
-        winget install --id GnuPG.GnuPG --silent --accept-source-agreements --accept-package-agreements
-        
-        # Refresh environment variables so PowerShell instantly sees 'gpg'
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        Write-Host "GnuPG not installed." -ForegroundColor Yellow
+        Start-Sleep -Seconds 3
+        Exit
     }
 
     if ([string]::IsNullOrWhiteSpace($gitName)) {
@@ -100,7 +98,7 @@ if ($confirm -eq 0) {
     }
 
     # Configure Git to look at the correct Windows path for GPG
-    $gpgPath = "C:\Program Files (x86)\GnuPG\bin\gpg.exe"
+    $gpgPath = "C:\Program Files\GnuPG\bin\gpg.exe"
     git config --global gpg.program $gpgPath
 
     # Check if a GPG key already exists for this email to keep it idempotent

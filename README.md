@@ -15,6 +15,7 @@ Setup Terminal.
 - Git.
 - GitHub CLI.
 - Starship w/ config file.
+- GnuPG *(not Gpg4win)*
 
 ```powershell
 iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Setup-Terminal.ps1 | iex
@@ -32,7 +33,6 @@ Setup Git.
 - Ask for `Name` and `Email` to config git --global.
 - Ask to create SSH ed25519 key.
 - Ask to create GPG key *(for signed commits)*
-  - Install GnuPG from Gpg4win.
   - Use created key as signKey for git.
 
 ```powershell
