@@ -70,7 +70,7 @@ if ($confirm -eq 0) {
 
     # Generate SSH keys only if this specific file doesn't exist yet
     if (-not (Test-Path $sshKeyFile)) {
-        ssh-keygen -t ed25519 -C "$gitEmail" -f "$sshKeyFile" -N ""
+        ssh-keygen -t ed25519 -C "$gitEmail" -f "$sshKeyFile"
     } else {
         Write-Host "SSH key file already exists at $sshKeyFile." -ForegroundColor Green
     }
