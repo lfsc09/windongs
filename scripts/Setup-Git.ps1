@@ -43,6 +43,8 @@ if ($confirm -eq 0) {
 
     git config --global branch.sort -committerdate
     git config --global tag.sort -version:refname
+
+    Write-Host "Git globals configured. Check them in ~\.gitconfig" -ForegroundColor Green
 }
 
 $confirm = $Host.UI.PromptForChoice(

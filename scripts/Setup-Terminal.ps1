@@ -88,8 +88,10 @@ if (-not (Get-ItemProperty -Path $registryPath -Name "*FiraCode*" -ErrorAction S
     # Clean up (Equivalent to rm -rf)
     Remove-Item $firaZip -ErrorAction SilentlyContinue
     Remove-Item $firaExtract -Recurse -ErrorAction SilentlyContinue
+
+    Write-Host "FiraCode Nerd Font installed." -ForegroundColor Green
 } else {
-    Write-Host "FiraCode Nerd Font is already installed. Skipping." -ForegroundColor Green
+    Write-Host "FiraCode Nerd Font is already installed." -ForegroundColor Green
 }
 
 # ==========================================
@@ -120,8 +122,10 @@ if (-not (Get-ItemProperty -Path $registryPath -Name "*JetBrainsMono*" -ErrorAct
     # Clean up
     Remove-Item $jbZip -ErrorAction SilentlyContinue
     Remove-Item $jbExtract -Recurse -ErrorAction SilentlyContinue
+
+    Write-Host "JetBrains Mono installed." -ForegroundColor Green
 } else {
-    Write-Host "JetBrains Mono is already installed. Skipping." -ForegroundColor Green
+    Write-Host "JetBrains Mono is already installed." -ForegroundColor Green
 }
 
 # Base config files url
@@ -143,6 +147,7 @@ if (-not (Test-Path $starshipPath)) {
     Write-Host "Downloading starship.toml..." -ForegroundColor Yellow
     if (-not (Test-Path $starshipDir)) { New-Item -ItemType Directory -Path $starshipDir -Force | Out-Null }
     Invoke-WebRequest -Uri "$baseUrl/starship.toml" -OutFile $starshipPath
+    Write-Host "starhip.toml installed. Check it in ~\.config\starship.toml" -ForegroundColor Green
 } else {
     Write-Host "starship.toml already exists." -ForegroundColor Green
 }
@@ -158,6 +163,7 @@ if (-not (Test-Path $pwshProfilePath)) {
     Write-Host "Downloading PowerShell 7 profile..." -ForegroundColor Yellow
     if (-not (Test-Path $pwshProfileDir)) { New-Item -ItemType Directory -Path $pwshProfileDir -Force | Out-Null }
     Invoke-WebRequest -Uri "$baseUrl/Microsoft.PowerShell_profile.ps1" -OutFile $pwshProfilePath
+    Write-Host "PowerShell 7 profile installed. Check it in ~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" -ForegroundColor Green
 } else {
     Write-Host "PowerShell 7 profile already exists." -ForegroundColor Green
 }
@@ -165,9 +171,19 @@ if (-not (Test-Path $pwshProfilePath)) {
 # --------------------------------------------------
 # Windows Terminal Settings
 # --------------------------------------------------
-$wtDir  = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-$wtPath = Join-Path $wtDir "settings.json"
+$confirm = $Host.UI.PromptForChoice(
+    "Configure Windows Terminal settings",
+    "This will overwrite Windows Terminal settings on your system. Proceed?",
+    @("&Yes", "&No"),
+    1  # Default: No
+)
+if ($confirm -eq 0) {
+    $wtDir  = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+    $wtPath = Join-Path $wtDir "settings.json"
 
-Write-Host "Downloading Windows Terminal settings.json..." -ForegroundColor Yellow
-if (-not (Test-Path $wtDir)) { New-Item -ItemType Directory -Path $wtDir -Force | Out-Null }
-Invoke-WebRequest -Uri "$baseUrl/windows-terminal-settings.json" -OutFile $wtPath
+    Write-Host "Downloading Windows Terminal settings.json..." -ForegroundColor Yellow
+    if (-not (Test-Path $wtDir)) { New-Item -ItemType Directory -Path $wtDir -Force | Out-Null }
+    Invoke-WebRequest -Uri "$baseUrl/windows-terminal-settings.json" -OutFile $wtPath
+
+    Write-Host "Windows Terminal settings installed. Check it in %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -ForegroundColor Green
+}
