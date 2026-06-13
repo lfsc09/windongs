@@ -66,7 +66,7 @@ if ($confirm -eq 0) {
     }
 
     # Construct the full path to the SSH key file
-    $sshKeyFile = Join-Path $HOME ".ssh\github_${cleanEmail}_ed25519"
+    $sshKeyFile = Join-Path $sshDir "github_${cleanEmail}_ed25519"
 
     # Generate SSH keys only if this specific file doesn't exist yet
     if (-not (Test-Path $sshKeyFile)) {
