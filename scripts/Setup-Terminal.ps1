@@ -165,10 +165,6 @@ if (-not (Test-Path $pwshProfilePath)) {
 $wtDir  = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 $wtPath = Join-Path $wtDir "settings.json"
 
-if (-not (Test-Path $wtPath)) {
-    Write-Host "Downloading Windows Terminal settings.json..." -ForegroundColor Yellow
-    if (-not (Test-Path $wtDir)) { New-Item -ItemType Directory -Path $wtDir -Force | Out-Null }
-    Invoke-WebRequest -Uri "$baseUrl/windows-terminal-settings.json" -OutFile $wtPath
-} else {
-    Write-Host "Windows Terminal settings.json already exists." -ForegroundColor Green
-}
+Write-Host "Downloading Windows Terminal settings.json..." -ForegroundColor Yellow
+if (-not (Test-Path $wtDir)) { New-Item -ItemType Directory -Path $wtDir -Force | Out-Null }
+Invoke-WebRequest -Uri "$baseUrl/windows-terminal-settings.json" -OutFile $wtPath
