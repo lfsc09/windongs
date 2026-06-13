@@ -6,7 +6,6 @@ $confirm = $Host.UI.PromptForChoice(
 )
 if ($confirm -ne 0) {
     Write-Host "Git setup cancelled." -ForegroundColor Red
-    Exit
 }
 
 do { $gitName  = Read-Host "Enter your Git username" }  while ([string]::IsNullOrWhiteSpace($gitName))

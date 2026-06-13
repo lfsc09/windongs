@@ -1,8 +1,6 @@
 # Ensure the script is running with Administrator privileges
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Warning "This script must be run as an Administrator. Restarting in an elevated session..."
-    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    Exit
+    Write-Warning "This script must be run as an Administrator."
 }
 
 $confirm = $Host.UI.PromptForChoice(
@@ -13,7 +11,6 @@ $confirm = $Host.UI.PromptForChoice(
 )
 if ($confirm -ne 0) {
     Write-Host "Installation cancelled." -ForegroundColor Red
-    Exit
 }
 
 $apps = @(
@@ -39,7 +36,6 @@ $selected = $apps | Out-GridView -Title "Select apps to install (Hold Ctrl to se
 
 if (-not $selected) {
     Write-Host "No apps selected. Installation cancelled." -ForegroundColor Red
-    Exit
 }
 
 function Install-WingetApp {
