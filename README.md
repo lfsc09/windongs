@@ -29,7 +29,7 @@ iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Install
 Setup Git.
 
 - Create `Github` folder in user's home.
-- Ask for `Name` and `Email` to config git.
+- Ask for `Name` and `Email` to config git --global.
 - Ask to create SSH ed25519 key.
 - Ask to create GPG key *(for signed commits)*
   - Install GnuPG from Gpg4win.
@@ -48,4 +48,3 @@ Get-Content "$HOME\.ssh\github_$((git config --global user.email).Replace('@','_
 ```powershell
 gpg --armor --export $((gpg --list-secret-keys --keyid-format LONG "$(git config --global user.email)" 2>$null) -match 'sec\s+\w+\/([A-F0-9]+)\s' ? $Matches[1] : "")
 ```
-

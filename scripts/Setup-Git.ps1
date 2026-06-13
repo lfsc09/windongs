@@ -21,21 +21,29 @@ if (-not (Test-Path $githubDir)) {
     Write-Host "Github directory already exists at $githubDir." -ForegroundColor Green
 }
 
-do { $gitName  = Read-Host "Enter your Git username" }  while ([string]::IsNullOrWhiteSpace($gitName))
-do { $gitEmail = Read-Host "Enter your Git email" }     while ([string]::IsNullOrWhiteSpace($gitEmail))
+$confirm = $Host.UI.PromptForChoice(
+    "Configure Git Globals",
+    "This will configure Git --global on your system. Proceed?",
+    @("&Yes", "&No"),
+    1  # Default: No
+)
+if ($confirm -eq 0) {
+    do { $gitName  = Read-Host "Enter your Git username" }  while ([string]::IsNullOrWhiteSpace($gitName))
+    do { $gitEmail = Read-Host "Enter your Git email" }     while ([string]::IsNullOrWhiteSpace($gitEmail))
 
-# Set global Git configurations
-git config --global user.name "$gitName"
-git config --global user.email "$gitEmail"
+    # Set global Git configurations
+    git config --global user.name "$gitName"
+    git config --global user.email "$gitEmail"
 
-git config --global init.defaultBranch main
+    git config --global init.defaultBranch main
 
-git config --global diff.algorithm histogram
-git config --global color.ui auto
-git config --global diff.mnemonicPrefix true
+    git config --global diff.algorithm histogram
+    git config --global color.ui auto
+    git config --global diff.mnemonicPrefix true
 
-git config --global branch.sort -committerdate
-git config --global tag.sort -version:refname
+    git config --global branch.sort -committerdate
+    git config --global tag.sort -version:refname
+}
 
 $confirm = $Host.UI.PromptForChoice(
     "Git SSH Key",
