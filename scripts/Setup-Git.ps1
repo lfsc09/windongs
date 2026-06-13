@@ -52,6 +52,9 @@ $confirm = $Host.UI.PromptForChoice(
     1  # Default: No
 )
 if ($confirm -eq 0) {
+    if ([string]::IsNullOrWhiteSpace($gitEmail)) {
+        do { $gitEmail = Read-Host "Enter your Git email" } while ([string]::IsNullOrWhiteSpace($gitEmail))
+    }
     # Clean the email string by replacing '@' and '.' with '_'
     $cleanEmail = $gitEmail.Replace('@', '_').Replace('.', '_')
     # Construct the full path to the SSH key file
@@ -74,6 +77,13 @@ if ($confirm -eq 0) {
         
         # Refresh environment variables so PowerShell instantly sees 'gpg'
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    }
+
+    if ([string]::IsNullOrWhiteSpace($gitName)) {
+        do { $gitName  = Read-Host "Enter your Git username" }  while ([string]::IsNullOrWhiteSpace($gitName))
+    }
+    if ([string]::IsNullOrWhiteSpace($gitEmail)) {
+        do { $gitEmail = Read-Host "Enter your Git email" } while ([string]::IsNullOrWhiteSpace($gitEmail))
     }
 
     # Configure Git to look at the correct Windows path for GPG
