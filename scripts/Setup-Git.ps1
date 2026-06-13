@@ -127,8 +127,8 @@ if ($confirm -eq 0) {
     }
 
     # Extract the Key ID reliably using a Regex Match instead of Split
-    $gpgSecrets = gpg --list-secret-keys --keyid-format LONG
-    if ($gpgSecrets -match 'sec\s+\w+\/([A-F0-9]+)\s') {
+    $gpgSecretsText = (gpg --list-secret-keys --keyid-format LONG) -join "`n"
+    if ($gpgSecretsText -match 'sec\s+[^/]+\/([A-F0-9]{16})\s') {
         $keyId = $Matches[1]
         
         # Apply to Git config
