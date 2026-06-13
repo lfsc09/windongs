@@ -88,16 +88,16 @@ if ($confirm -eq 0) {
 
         # Create a temporary batch file configuration for GPG automation
         $gpgBatchFile = "$env:TEMP\gpg-batch.txt"
-        @'
-        Key-Type: ed25519
-        Key-Usage: sign
-        Name-Real: YOUR_NAME_REPLACE
-        Name-Email: YOUR_EMAIL_REPLACE
-        Expire-Date: 0
-        %no-ask-passphrase
-        %no-protection
-        %commit
-    '@ -replace 'YOUR_NAME_REPLACE', $gitName -replace 'YOUR_EMAIL_REPLACE', $gitEmail | Out-File $gpgBatchFile -Encoding ascii
+    @'
+    Key-Type: ed25519
+    Key-Usage: sign
+    Name-Real: YOUR_NAME_REPLACE
+    Name-Email: YOUR_EMAIL_REPLACE
+    Expire-Date: 0
+    %no-ask-passphrase
+    %no-protection
+    %commit
+'@ -replace 'YOUR_NAME_REPLACE', $gitName -replace 'YOUR_EMAIL_REPLACE', $gitEmail | Out-File $gpgBatchFile -Encoding ascii
 
         # Generate the key using the batch file completely unattended
         & $gpgPath --batch --generate-key $gpgBatchFile
