@@ -55,12 +55,25 @@ if ($confirm -eq 0) {
     if ([string]::IsNullOrWhiteSpace($gitEmail)) {
         do { $gitEmail = Read-Host "Enter your Git email" } while ([string]::IsNullOrWhiteSpace($gitEmail))
     }
+
     # Clean the email string by replacing '@' and '.' with '_'
     $cleanEmail = $gitEmail.Replace('@', '_').Replace('.', '_')
+
+    # Ensure the .ssh folder exists in user's home before creating files inside it
+    $sshDir = Join-Path $HOME ".ssh"
+    if (-not (Test-Path $sshDir)) {
+        New-Item -Path $sshDir -ItemType Directory | Out-Null
+    }
+
     # Construct the full path to the SSH key file
     $sshKeyFile = Join-Path $HOME ".ssh\github_${cleanEmail}_ed25519"
-    # Generate SSH keys
-    ssh-keygen -t ed25519 -C "$gitEmail" -f "$sshKeyFile" -N ""
+
+    # Generate SSH keys only if this specific file doesn't exist yet
+    if (-not (Test-Path $sshKeyFile)) {
+        ssh-keygen -t ed25519 -C "$gitEmail" -f "$sshKeyFile" -N ""
+    } else {
+        Write-Host "SSH key file already exists at $sshKeyFile." -ForegroundColor Green
+    }
 }
 
 $confirm = $Host.UI.PromptForChoice(
@@ -111,7 +124,7 @@ if ($confirm -eq 0) {
         & $gpgPath --batch --generate-key $gpgBatchFile
         Remove-Item $gpgBatchFile -ErrorAction SilentlyContinue
     } else {
-        Write-Host "GPG key for $gitEmail already exists. Skipping generation." -ForegroundColor Green
+        Write-Host "GPG key for $gitEmail already exists." -ForegroundColor Green
     }
 
     # Extract the Key ID reliably using a Regex Match instead of Split
