@@ -1,6 +1,8 @@
 # Ensure the script is running with Administrator privileges
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Warning "This script must be run as an Administrator."
+    Start-Sleep -Seconds 3
+    Exit
 }
 
 $confirm = $Host.UI.PromptForChoice(
@@ -11,6 +13,8 @@ $confirm = $Host.UI.PromptForChoice(
 )
 if ($confirm -ne 0) {
     Write-Host "Terminal setup cancelled." -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    Exit
 }
 
 function Install-WingetApp {

@@ -1,6 +1,8 @@
 # Ensure the script is running with Administrator privileges
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Warning "This script must be run as an Administrator."
+    Start-Sleep -Seconds 3
+    Exit
 }
 
 if (-not (Get-Module -ListAvailable -Name Microsoft.PowerShell.ConsoleGuiTools)) {
@@ -15,6 +17,8 @@ $confirm = $Host.UI.PromptForChoice(
 )
 if ($confirm -ne 0) {
     Write-Host "Installation cancelled." -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    Exit
 }
 
 $apps = @(
@@ -40,6 +44,8 @@ $selected = $apps | Out-ConsoleGridView -Title "Select apps to install (Press SP
 
 if (-not $selected) {
     Write-Host "No apps selected. Installation cancelled." -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    Exit
 }
 
 function Install-WingetApp {
