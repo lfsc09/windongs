@@ -13,29 +13,85 @@ if ($confirm -ne 0) {
     Write-Host "Installation cancelled." -ForegroundColor Red
 }
 
+function Get-TerminalMultiSelect {
+    param (
+        [string[]]$Options,
+        [string]$Title = "Select items:"
+    )
+
+    $selectedIndex = 0
+    # Keep track of checked items (hashtable)
+    $checked = @{}
+    foreach ($opt in $Options) { $checked[$opt] = $false }
+
+    # Save original cursor visibility status and clear screen space
+    $oldCursorVisible = $Host.UI.RawUI.CursorSize
+    Write-Host "`n$Title" -ForegroundColor Magenta
+    Write-Host "(Use Up/Down Arrows, SPACE to toggle, ENTER to finish)`n" -ForegroundColor DarkGray
+
+    # Record starting line so we can overwrite cleanly
+    $startTop = [Console]::CursorTop
+
+    while ($true) {
+        # Render the menu
+        [Console]::SetCursorPosition(0, $startTop)
+        for ($i = 0; $i -lt $Options.Count; $i++) {
+            $opt = $Options[$i]
+            $isCurrent = ($i -eq $selectedIndex)
+            $isChecked = $checked[$opt]
+
+            # Build row indicator
+            $pointer = if ($isCurrent) { "> " } else { "  " }
+            $box     = if ($isChecked) { "[x] " } else { "[ ] " }
+            
+            # Formatting highlights
+            if ($isCurrent) {
+                Write-Host "$pointer$box$opt" -ForegroundColor Cyan
+            } else {
+                Write-Host "$pointer$box$opt" -ForegroundColor Gray
+            }
+        }
+
+        # Handle user input
+        $key = [Console]::ReadKey($true)
+        switch ($key.Key) {
+            "UpArrow" {
+                $selectedIndex--
+                if ($selectedIndex -lt 0) { $selectedIndex = $Options.Count - 1 }
+            }
+            "DownArrow" {
+                $selectedIndex++
+                if ($selectedIndex -ge $Options.Count) { $selectedIndex = 0 }
+            }
+            "Spacebar" {
+                $currentOpt = $Options[$selectedIndex]
+                $checked[$currentOpt] = -not $checked[$currentOpt]
+            }
+            "Enter" {
+                # Break loop and collect selections
+                break
+            }
+        }
+    }
+
+    # Clean up console view and return array
+    Write-Host ""
+    return $Options | Where-Object { $checked[$_] }
+}
+
 $apps = @(
-    [PSCustomObject]@{ Name = "7zip" }
-    [PSCustomObject]@{ Name = "Bruno" }
-    [PSCustomObject]@{ Name = "Chocolatey" }
-    [PSCustomObject]@{ Name = "Claude" }
-    [PSCustomObject]@{ Name = "Claude Code" }
-    [PSCustomObject]@{ Name = "Docker Desktop" }
-    [PSCustomObject]@{ Name = "Google Chrome" }
-    [PSCustomObject]@{ Name = "JetBrains Toolbox" }
-    [PSCustomObject]@{ Name = "Lightshot" }
-    [PSCustomObject]@{ Name = "Logitech Options+" }
-    [PSCustomObject]@{ Name = "NVIDIA App" }
-    [PSCustomObject]@{ Name = "OBS Studio" }
-    [PSCustomObject]@{ Name = "Paint.NET" }
-    [PSCustomObject]@{ Name = "VS Code" }
-    [PSCustomObject]@{ Name = "WinDirStat" }
+    "7zip", "Bruno", "Chocolatey", "Claude", "Claude Code",
+    "Docker Desktop", "Google Chrome", "JetBrains Toolbox",
+    "Lightshot", "Logitech Options+", "NVIDIA App", "OBS Studio",
+    "Paint.NET", "VS Code", "WinDirStat"
 )
 
-# Show the GUI selection menu
-$selected = $apps | Out-GridView -Title "Select apps to install (Hold Ctrl to select multiple)" -PassThru
+# Run the menu inline
+$selectedNames = Get-TerminalMultiSelect -Options $apps -Title "Select apps to install:"
 
-if (-not $selected) {
+if (-not $selectedNames) {
     Write-Host "No apps selected. Installation cancelled." -ForegroundColor Red
+    Exit
 }
 
 function Install-WingetApp {
