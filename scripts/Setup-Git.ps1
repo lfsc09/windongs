@@ -110,7 +110,8 @@ if ($confirm -eq 0) {
         # Create a temporary batch file configuration for GPG automation
         $gpgBatchFile = "$env:TEMP\gpg-batch.txt"
     @'
-    Key-Type: ed25519
+    Key-Type: EDDSA
+    Key-Curve: ed25519
     Key-Usage: sign
     Name-Real: YOUR_NAME_REPLACE
     Name-Email: YOUR_EMAIL_REPLACE
