@@ -41,8 +41,8 @@ Install-WingetApp "GitHub.cli"
 # Starship
 Install-WingetApp "Starship.Starship"
 
-# GnuPG
-Install-WingetApp "GnuPG.GnuPG"
+# GnuPG Gpg4win
+Install-WingetApp "GnuPG.Gpg4win"
 
 # ==========================================
 # FONTS

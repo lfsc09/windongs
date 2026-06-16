@@ -15,7 +15,7 @@ Setup Terminal.
 - Git.
 - GitHub CLI.
 - Starship w/ config file.
-- GnuPG *(not Gpg4win)*
+- GnuPG *(Gpg4win)*
 
 ```powershell
 iwr -useb https://raw.githubusercontent.com/lfsc09/windongs/main/scripts/Setup-Terminal.ps1 | iex

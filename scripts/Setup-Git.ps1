@@ -107,8 +107,8 @@ $confirm = $Host.UI.PromptForChoice(
     1  # Default: No
 )
 if ($confirm -eq 0) {
-    # Check if GnuPG Core installed
-    if (-not (winget list --id GnuPG.GnuPG --exact 2>$null)) {
+    # Check if GnuPG Core/Gpg4win installed
+    if (-not (winget list --id GnuPG.Gpg4win --exact 2>$null)) {
         Write-Host "GnuPG not installed." -ForegroundColor Yellow
         Start-Sleep -Seconds 3
         Exit
